@@ -1,0 +1,1 @@
+# sitecore-text-generation
