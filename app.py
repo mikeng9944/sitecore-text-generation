@@ -44,6 +44,6 @@ for i, prompt in enumerate(prompts):
         st.markdown(f"## {content}")
 
         blob_name = f"generated_text_{i+1}.json"
-        json_content = json.dumps(content)  # Convert content to JSON
+        json_content = json.dumps({"title": f"Generated Text {i+1}", "content": content})  # Convert content to JSON with title and content
         upload_text_to_blob_storage(json_content, "testcontainer", blob_name)  # Upload JSON content
         st.write(f"Content for prompt {i+1} uploaded to blob storage.")
