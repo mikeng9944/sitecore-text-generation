@@ -2,6 +2,7 @@ import requests
 import openai
 from azure.storage.blob import BlobServiceClient
 import streamlit as st
+import json
 
 openai.api_type = "azure"
 openai.api_base = "https://cog-ps4mawleuhav4.openai.azure.com/"
@@ -35,13 +36,14 @@ prompts = ["Write a compelling hero banner for our website that highlights our A
                "Create a persuasive 'Checkout Now' message for customers who have added our AI-powered solutions to their cart."]
 
 for i, prompt in enumerate(prompts):
-        text_prompt = st.text_input(f"Text Prompt {i+1}", prompt)
+    text_prompt = st.text_input(f"Text Prompt {i+1}", prompt)
 
-        if text_prompt:
-            st.write(f"Generating content for prompt {i+1}...")
-            content = generate_website_content(text_prompt)
-            st.markdown(f"## {content}")
+    if text_prompt:
+        st.write(f"Generating content for prompt {i+1}...")
+        content = generate_website_content(text_prompt)
+        st.markdown(f"## {content}")
 
-            blob_name = f"generated_text_{i+1}.txt"
-            upload_text_to_blob_storage(content, "testcontainer", blob_name)
-            st.write(f"Content for prompt {i+1} uploaded to blob storage.")
+        blob_name = f"generated_text_{i+1}.json"
+        json_content = json.dumps(content)  # Convert content to JSON
+        upload_text_to_blob_storage(json_content, "testcontainer", blob_name)  # Upload JSON content
+        st.write(f"Content for prompt {i+1} uploaded to blob storage.")
